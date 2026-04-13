@@ -1,0 +1,61 @@
+slam_toolbox:
+  ros__parameters:
+    # General
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    scan_topic: /scan
+    use_sim_time: true
+    mode: mapping
+
+    # Throttle — el Burger es lento, así que tomamos scans frecuentes
+    minimum_travel_distance: 0.2
+    minimum_travel_heading: 0.15
+    scan_buffer_size: 10
+    scan_buffer_maximum_scan_distance: 3.5  # rango máximo del LDS-01
+
+    # Resolución del mapa
+    resolution: 0.05
+
+    # Matcher — tunear para el LiDAR del Burger (360 samples, 1° resolución)
+    max_laser_range: 3.5
+    minimum_time_interval: 0.5
+    transform_timeout: 0.2
+    tf_buffer_duration: 30.0
+
+    # Loop closure
+    do_loop_closing: true
+    loop_search_maximum_distance: 3.0
+    loop_match_minimum_chain_size: 3
+    loop_match_maximum_variance_coarse: 3.0
+    loop_match_minimum_response_coarse: 0.35
+    loop_match_minimum_response_fine: 0.45
+
+    # Correlation — búsqueda gruesa
+    correlation_search_space_dimension: 0.5
+    correlation_search_space_resolution: 0.01
+    correlation_search_space_smear_deviation: 0.1
+
+    # Loop closure search
+    loop_search_space_dimension: 8.0
+    loop_search_space_resolution: 0.05
+    loop_search_space_smear_deviation: 0.03
+
+    # Penalización de distancia (evita matches lejanos falsos)
+    distance_variance_penalty: 0.5
+    angle_variance_penalty: 1.0
+    fine_search_angle_offset: 0.00349  # ~0.2°
+    coarse_search_angle_offset: 0.349  # ~20°
+    coarse_angle_resolution: 0.0349    # ~2°
+
+    # Stack size para el solver
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: SCHUR_JACOBI
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None
+
+    # Map update
+    map_update_interval: 3.0
+    enable_interactive_mode: true
